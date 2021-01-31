@@ -92,12 +92,29 @@ class ProductListRender {
 }
 
 class ShoppingCart {
-  cart = [];
+  items = [];
   totalOutput;
-  addProduct(product) {
-    this.cart.push(product);
-    this.totalOutput.innerHTML = `<h2>Total: \$${1}</h2>`;
+  // solution1
+  get totalAmount() {
+    const sum = this.items.reduce((acc, item) => acc + item.price, 0);
+    return sum;
   }
+  addProduct(product) {
+    this.items.push(product);
+    this.totalOutput.innerHTML = `<h2>Total: \$${this.totalAmount}</h2>`;
+  }
+  // end solution1
+  // solution2
+  // set cartItems(value) {
+  //   this.items = value;
+  //   this.totalOutput.innerHTML = `<h2>Total: \$${this.totalAmount}</h2>`;
+  // }
+  // addProduct(product) {
+  //   const updatedItems = [...this.items];
+  //   updatedItems.push(product);
+  //   this.cartItems = updatedItems;
+  // }
+  // end solution2
   render() {
     const cartEl = document.createElement('section');
     cartEl.className = 'cart';
@@ -118,6 +135,7 @@ class Shop {
   render() {
     const renderHook = document.getElementById('app');
     this.cart = new ShoppingCart();
+    console.log('cart - ', this.cart);
     const cartEl = this.cart.render();
     const productList = new ProductListRender(products);
     const prodListEl = productList.render();
