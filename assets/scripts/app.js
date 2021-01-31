@@ -101,20 +101,21 @@ class ProductRender extends Component {
 }
 
 class ProductListRender extends Component {
-  products = [];
+  #products = [];
   constructor(renderHookId) {
-    super(renderHookId);
+    super(renderHookId, false);
+    this.render();
     this.fetchProducts();
   }
 
   renderProducts() {
-    for (const key in this.products) {
-      new ProductRender(this.products[key], 'prod-list');
+    for (const key in this.#products) {
+      new ProductRender(this.#products[key], 'prod-list');
     }
   }
 
   fetchProducts() {
-    this.products = productsData.map(
+    this.#products = productsData.map(
       ({ title, imageUrl, description, price }) =>
         new Product(title, imageUrl, description, price)
     );
@@ -125,7 +126,7 @@ class ProductListRender extends Component {
     this.createRootElement('ul', 'product-list', [
       new ElementAttribute('id', 'prod-list'),
     ]);
-    if (this.products && this.products.length > 0) {
+    if (this.#products && this.#products.length > 0) {
       this.renderProducts();
     }
   }
